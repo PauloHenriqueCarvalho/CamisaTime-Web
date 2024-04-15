@@ -1,0 +1,165 @@
+drop database banco_ds;
+create database banco_ds;
+use banco_ds;
+
+create table usuario (
+	idUsuario int primary key auto_increment,
+    nome varchar(100) not null,
+    email varchar(100) not null,
+    senha varchar(100) not null,
+    cpf char(11) not null,
+    telefone varchar(13)
+);
+
+create table endereco (
+	idEndereco int primary key auto_increment,
+    estado varchar(50) not null,
+    cidade varchar(50) not null,
+    cep char(9),
+    rua varchar(100) not null,
+    numero varchar(10) not null,
+    complemento varchar(100)
+);
+
+create table categoria (
+	idCategoria int primary key auto_increment,
+    nome varchar(100) not null
+);
+create table clube (
+	idClube int primary key auto_increment,
+    nome varchar(100) not null
+);
+
+
+
+create table produto (
+	idProduto int primary key auto_increment,
+    nome varchar(100) not null,
+    valor float(10,2) not null,
+    desconto float(10,2),
+    valorFinal float(10,2) not null,
+    imagem longblob,
+    categoria int not null,
+    clube int not null,
+    foreign key (clube) references clube(idClube),
+    foreign key (categoria) references categoria(idCategoria)
+);
+
+create table estoque (
+	idEstoque int primary key auto_increment,
+    produto int not null,
+    quantidade int not null,
+    custo float(10,2) not null,
+    foreign key (produto) references produto(idProduto)
+);
+
+create table pedido (
+	idPedido int primary key auto_increment,
+    usuario int not null,
+    endereco_entrega int not null,
+    data_pedido date not null,
+    valorTotal float,
+    foreign key (endereco_entrega) references endereco(idEndereco),
+    foreign key (usuario) references usuario(idUsuario)
+);
+
+create table carrinho (
+	idCarrinho int primary key auto_increment,
+    usuario int,
+    foreign key (usuario) references usuario(idUsuario)
+);
+
+create table carrinho_produto (
+	idCarrinho_produto int primary key auto_increment,
+    carrinho int not null,
+    produto int not null,
+    foreign key (carrinho) references carrinho(idCarrinho),
+    foreign key (produto) references produto(idProduto)
+);
+
+create table produto_pedido (
+	idProduto_pedido int primary key auto_increment,
+    pedido int not null,
+    produto int not null,
+    foreign key (pedido) references pedido(idPedido),
+    foreign key (produto) references produto(idProduto)
+);
+
+DELIMITER //
+CREATE TRIGGER criar_carrinho
+AFTER INSERT ON usuario
+FOR EACH ROW
+BEGIN
+    INSERT INTO carrinho (usuario) VALUES (NEW.idUsuario);
+END //
+
+DELIMITER //
+
+
+CREATE TRIGGER criar_estoque_produto
+AFTER INSERT ON produto
+FOR EACH ROW
+BEGIN
+    INSERT INTO estoque (produto, quantidade, custo) VALUES (NEW.idProduto, 10, NEW.valor);
+END;
+//
+DELIMITER ;
+
+DELIMITER //
+
+INSERT INTO clube (nome) VALUES ('Clube A');
+INSERT INTO clube (nome) VALUES ('Clube B');
+INSERT INTO clube (nome) VALUES ('Clube C');
+
+
+INSERT INTO usuario (nome, email, senha, cpf, telefone) VALUES ('João Silva', 'joao@example.com', 'senha123', '12345678901', '(12) 3456-7890');
+INSERT INTO usuario (nome, email, senha, cpf, telefone) VALUES ('Maria Oliveira', 'maria@example.com', 'senha456', '98765432109', '(34) 5678-9012');
+
+-- Inserts para tabela 'categoria'
+INSERT INTO categoria (nome) VALUES ('Eletrônicos');
+INSERT INTO categoria (nome) VALUES ('Moda');
+INSERT INTO categoria (nome) VALUES ('Esportes');
+INSERT INTO categoria (nome) VALUES ('Casa');
+
+INSERT INTO produto (nome, valor, desconto, valorFinal, imagem, categoria, clube) VALUES ('Smartphone', 1500.00, 100.00, 1400.00, NULL, 1, 1);
+INSERT INTO produto (nome, valor, desconto, valorFinal, imagem, categoria, clube) VALUES ('Notebook', 2500.00, 200.00, 2300.00, NULL, 1, 2);
+INSERT INTO produto (nome, valor, desconto, valorFinal, imagem, categoria, clube) VALUES ('Camiseta', 50.00, 10.00, 45.00, NULL, 2, 1);
+INSERT INTO produto (nome, valor, desconto, valorFinal, imagem, categoria, clube) VALUES ('Tênis', 200.00, 20.00, 180.00, NULL, 3, 3);
+INSERT INTO produto (nome, valor, desconto, valorFinal, imagem, categoria, clube) VALUES ('Sofá', 800.00, 50.00, 750.00, NULL, 4, 1);
+INSERT INTO produto (nome, valor, desconto, valorFinal, imagem, categoria, clube) VALUES ('TV', 1000.00, 100.00, 900.00, NULL, 1, 3);
+INSERT INTO produto (nome, valor, desconto, valorFinal, imagem, categoria, clube) VALUES ('Vestido', 80.00, 5.00, 75.00, NULL, 2, 2);
+INSERT INTO produto (nome, valor, desconto, valorFinal, imagem, categoria, clube) VALUES ('Bicicleta', 300.00, 30.00, 270.00, NULL, 3, 1);
+INSERT INTO produto (nome, valor, desconto, valorFinal, imagem, categoria, clube) VALUES ('Mesa', 150.00, 15.00, 135.00, NULL, 4, 2);
+INSERT INTO produto (nome, valor, desconto, valorFinal, imagem, categoria, clube) VALUES ('Cadeira', 50.00, 5.00, 45.00, NULL, 4, 3);
+
+INSERT INTO produto (nome, valor, desconto, valorFinal, categoria, clube) VALUES 
+('Produto A', 50.00, 5.00, 45.00, 1, 1),
+('Produto B', 30.00, 0.00, 30.00, 2, 1),
+('Produto C', 20.00, 2.00, 18.00, 1, 2),
+('Produto D', 45.00, 3.50, 41.50, 3, 2),
+('Produto E', 60.00, 0.00, 60.00, 2, 3),
+('Produto F', 25.00, 1.00, 24.00, 1, 3),
+('Produto G', 35.00, 0.00, 35.00, 2, 1),
+('Produto H', 40.00, 4.00, 36.00, 3, 2),
+('Produto I', 55.00, 5.50, 49.50, 1, 3),
+('Produto J', 70.00, 0.00, 70.00, 2, 1),
+('Produto K', 15.00, 1.50, 13.50, 3, 1),
+('Produto L', 28.00, 0.00, 28.00, 1, 2),
+('Produto M', 38.00, 3.80, 34.20, 2, 2),
+('Produto N', 48.00, 0.00, 48.00, 3, 3),
+('Produto O', 65.00, 6.50, 58.50, 1, 3),
+('Produto P', 22.00, 2.20, 19.80, 2, 1),
+('Produto Q', 33.00, 0.00, 33.00, 3, 2),
+('Produto R', 42.00, 4.20, 37.80, 1, 3),
+('Produto S', 58.00, 0.00, 58.00, 2, 1),
+('Produto T', 17.00, 1.70, 15.30, 3, 2),
+('Produto U', 27.00, 0.00, 27.00, 1, 3),
+('Produto V', 37.00, 3.70, 33.30, 2, 3),
+('Produto W', 46.00, 0.00, 46.00, 3, 1),
+('Produto X', 62.00, 6.20, 55.80, 1, 1),
+('Produto Y', 19.00, 1.90, 17.10, 2, 2),
+('Produto Z', 31.00, 0.00, 31.00, 3, 3),
+('Produto AA', 41.00, 4.10, 36.90, 1, 1),
+('Produto AB', 56.00, 0.00, 56.00, 2, 2),
+('Produto AC', 23.00, 2.30, 20.70, 3, 3),
+('Produto AD', 34.00, 0.00, 34.00, 1, 2);
