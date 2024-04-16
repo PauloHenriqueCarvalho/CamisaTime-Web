@@ -37,7 +37,9 @@
     </div>
     <header>
         <div class="logo">
-            <h1>FanFut Store</h1>
+            <a href="./Produtos">
+                <h1>FanFut Store</h1>
+            </a>
         </div>
 
         <div class="carrinho">
@@ -117,14 +119,14 @@
             </div>
             <div class="descricao-right">
                 <div class="nome">
-                    <span><i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i></span>
+                    <span id="stars"><i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i></span>
                     <p>Nome Completo do Produto</p>
                 </div>
                 <div class="valor">
                     <p>Preco</p>
                     <p>R$ <span>799</span> <s> R$ 1000</s></p>
                 </div>
-                <div class="comprar">
+                <div class="comprar">         
                     <div class="listaTamanho">
                         <ul class="list-group">
                         <li class="list-group-item">
@@ -140,11 +142,12 @@
                           <label class="form-check-label" for="thirdRadio">G</label>
                         </li>
                       </ul>
-                      <button  id="btn" type="button" class="btn btn-success">Comprar</button>            
+                      <button  id="btn" type="button" class="btn btn-success">Comprar</button>
+                       
 
                     </div>
                     
-                    <span>Dúvidas sobre este produto? Código do produto: #94542</span>
+                    <span id="duvidas">Dúvidas sobre este produto? Código do produto: #94542</span>
                 </div>
        </div>
     </main>

@@ -33,7 +33,9 @@
     </div>
     <header>
         <div class="logo">
-            <h1>FanFut Store</h1>
+            <a href="./Produtos">
+                <h1>FanFut Store</h1>
+            </a>
         </div>
 
         <div class="search">

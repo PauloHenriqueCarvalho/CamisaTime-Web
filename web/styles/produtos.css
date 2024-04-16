@@ -18,16 +18,22 @@ main{
     justify-content: center;
     width: 70%;
     height: 700px;
-    border: 1px solid red;
     
 }
 
+#stars{
+    color: rgba(238, 203, 5, 0.911);
+}
+#duvidas{
+    color: black;
+    font-size: 10px;
+}
 .descricao-right{
     display: flex;
     flex-direction: column;
     width: 70%;
     height: 700px;
-    border: 1px solid blue;
+
     
 }
 .nome{
@@ -37,7 +43,7 @@ main{
     flex-direction: column;
     gap: 20px;
     height:30%;
-    border: 1px solid black;
+
 
 
 }
@@ -48,7 +54,7 @@ main{
     flex-direction: column;
     gap: 20px;
     height:30%;
-    border: 1px solid black;
+
 }
 .comprar{
     display: flex;
@@ -57,7 +63,11 @@ main{
     flex-direction: column;
     gap: 20px;
     height:40%;
-    border: 1px solid black;
+
+}
+
+.botao{
+    z-index: 99;
 }
 
 
@@ -74,16 +84,16 @@ main{
 .listaTamanho{
     display: flex;
     flex-direction: row;
-    justify-content: left;
+    justify-content: center;
     align-items: center;
-    border: 1px solid purple;
+
     width: 100%;
     height: 50%;
 }
 .list-group{
-    margin-left: 30px;
+    margin-right: 50px;
 }
 
 #btn{
-    margin-left: 30px;
+    margin-right: 50px;
 }

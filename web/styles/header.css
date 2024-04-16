@@ -220,14 +220,12 @@ p{
     color: black;
 }
 
-<<<<<<<< HEAD:Mercado Web/web/styles/header.css
 
 .ls-theme-gray .ls-cart-header, html .ls-cart-header {
 
     background-color: #f8f9fa;
-========
+}
 .cards{
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
->>>>>>>> dbe6cd28b41a34279dd0186395eb2071d4f28903:web/index.css
+
 }

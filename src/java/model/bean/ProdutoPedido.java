@@ -13,14 +13,16 @@ public class ProdutoPedido {
     private int idProdutoPedido;
     private int pedido;
     private int produto;
+    private String tamanho;
 
     public ProdutoPedido() {
     }
 
-    public ProdutoPedido(int idProdutoPedido, int pedido, int produto) {
+    public ProdutoPedido(int idProdutoPedido, int pedido, int produto, String tamanho) {
         this.idProdutoPedido = idProdutoPedido;
         this.pedido = pedido;
         this.produto = produto;
+        this.tamanho = tamanho;
     }
 
     public int getIdProdutoPedido() {
@@ -46,6 +48,17 @@ public class ProdutoPedido {
     public void setProduto(int produto) {
         this.produto = produto;
     }
+
+    public String getTamanho() {
+        return tamanho;
+    }
+
+    public void setTamanho(String tamanho) {
+        this.tamanho = tamanho;
+    }
+
+    
+    
     
     
 }

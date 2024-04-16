@@ -35,7 +35,10 @@
         </div>
     <header>
         <div class="logo">
-            <h1>FanFut Store</h1>
+            <a href="./Produtos">
+                <h1>FanFut Store</h1>
+            </a>
+            
         </div>
 
         <div class="carrinho">
@@ -100,7 +103,8 @@
                     <li><a class="dropdown-item" href="./Login">Login</a></li>
                     <li><a class="dropdown-item" href="./cadastro-usuario">Cadastre-se</a></li>
                     <li><a class="dropdown-item" href="./meus-pedidos">Meus Pedidos</a></li>
-
+                    <li><a class="dropdown-item" href="./produto-item">Produto Individual</a></li>
+                    <li><a class="dropdown-item" href="#">Log out</a></li>
 
                 </ul>
             </div>

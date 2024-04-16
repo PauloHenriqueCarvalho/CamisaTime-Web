@@ -19,12 +19,13 @@ public class Produto {
     private Float desconto;
     private Float valorFinal;
     private int clube;
+    private int subcategoria;
     private Blob imagem;
 
     public Produto() {
     }
 
-    public Produto(int idProduto, int categoria, String nome, Float valor, Float desconto, Float valorFinal, int clube, Blob imagem) {
+    public Produto(int idProduto, int categoria, String nome, Float valor, Float desconto, Float valorFinal, int clube, int subcategoria, Blob imagem) {
         this.idProduto = idProduto;
         this.categoria = categoria;
         this.nome = nome;
@@ -32,6 +33,7 @@ public class Produto {
         this.desconto = desconto;
         this.valorFinal = valorFinal;
         this.clube = clube;
+        this.subcategoria = subcategoria;
         this.imagem = imagem;
     }
 
@@ -91,6 +93,14 @@ public class Produto {
         this.clube = clube;
     }
 
+    public int getSubcategoria() {
+        return subcategoria;
+    }
+
+    public void setSubcategoria(int subcategoria) {
+        this.subcategoria = subcategoria;
+    }
+
     public Blob getImagem() {
         return imagem;
     }
@@ -99,5 +109,6 @@ public class Produto {
         this.imagem = imagem;
     }
 
+    
     
 }
