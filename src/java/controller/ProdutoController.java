@@ -13,8 +13,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.bean.Categoria;
 import model.bean.Produto;
+import model.bean.Subcategoria;
+import model.dao.CategoriaDAO;
 import model.dao.ProdutoDAO;
+import model.dao.SubcategoriaDAO;
 
 /**
  *
@@ -22,23 +26,25 @@ import model.dao.ProdutoDAO;
  */
 public class ProdutoController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        ProdutoDAO dao = new ProdutoDAO();
-        List<Produto> produtos = dao.listarTodos();
+        SubcategoriaDAO daoSub = new SubcategoriaDAO();
+        List<Subcategoria> sub = daoSub.listarTodos();
         
-        request.setAttribute("produtos", produtos);
+        request.setAttribute("subcategoria", sub);
+        
+        CategoriaDAO daoCate = new CategoriaDAO();
+        List<Categoria> categoria = daoCate.listarTodos();
+        
+        request.setAttribute("categorias", categoria);
+        
+        ProdutoDAO dao = new ProdutoDAO();
+        List<Produto> a = dao.listarTodos();
+        
+        
+        request.setAttribute("produtos", a);
         String url = "/WEB-INF/jsp/index.jsp";
         
         RequestDispatcher d = getServletContext().getRequestDispatcher(url);
@@ -46,29 +52,14 @@ public class ProdutoController extends HttpServlet {
        
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

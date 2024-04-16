@@ -21,7 +21,7 @@ import model.bean.Categoria;
  */
 public class CategoriaDAO {
 
-    private List<Categoria> listarTodos() {
+    public List<Categoria> listarTodos() {
         List<Categoria> categorias = new ArrayList();
         try {
             java.sql.Connection conexao = Conexao.getConn();
@@ -49,7 +49,7 @@ public class CategoriaDAO {
         return categorias;
     }
 
-    private Categoria readById(int id) {
+    public Categoria readById(int id) {
         Categoria c = new Categoria();
         try {
             java.sql.Connection conexao = Conexao.getConn();
@@ -76,7 +76,7 @@ public class CategoriaDAO {
         return c;
     }
 
-    private Categoria readByNome(String nome) {
+    public Categoria readByNome(String nome) {
         Categoria c = new Categoria();
         try {
             java.sql.Connection conexao = Conexao.getConn();
@@ -103,7 +103,7 @@ public class CategoriaDAO {
         return c;
     }
 
-    private Categoria readByNome(Categoria c) {
+    public Categoria readByNome(Categoria c) {
         try {
             java.sql.Connection conexao = Conexao.getConn();;
             PreparedStatement stmt = null;

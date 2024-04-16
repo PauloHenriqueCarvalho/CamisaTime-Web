@@ -38,7 +38,7 @@
             <a href="./Produtos">
                 <h1>FanFut Store</h1>
             </a>
-            
+
         </div>
 
         <div class="carrinho">
@@ -116,66 +116,21 @@
 
     <div class="container-baixo">
         <div class="menu">
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    LOJA
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-            </div>
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    BRASILEIROS
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-            </div>
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    INTERNACIONAIS
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-            </div>
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    SELEÇÕES
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-            </div>
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    FUTEBOL
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-            </div>
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    CASUAL
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-            </div>
+            <c:forEach items="${categorias}" var="categoria">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <p>${categoria.nome}</p>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                </div>
+
+            </c:forEach>
+
+
         </div>
     </div>
 
@@ -222,21 +177,21 @@
 
     <section>
         <div class="cards">
-            
-            <c:forEach items="${produtos}" var="produto">
+
+            <c:forEach items="${produtoss}" var="produto">
                 <a href="./produto-item">
                     <div class="card" style="width: 18rem;">
-                    <img src="./assets/Captura de tela 2024-04-08 004959.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <p class="card-text">${produto.nome}</p>
-                        <span class="label-card">
-                            R$ ${produto.valorFinal} <s>R$ ${produto.valor}</s>
-                            <p>em até 12x de 18,23</p>
-                        </span>
+                        <img src="./assets/Captura de tela 2024-04-08 004959.png" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <p class="card-text">${produto.nome}</p>
+                            <span class="label-card">
+                                R$ ${produto.valorFinal} <s>R$ ${produto.valor}</s>
+                                <p>em até 12x de 18,23</p>
+                            </span>
+                        </div>
                     </div>
-                </div>
                 </a>
-                
+
 
             </c:forEach>
 

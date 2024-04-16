@@ -41,29 +41,37 @@ public class UsuarioDAO {
             e.printStackTrace();
         }
      */
-    public Boolean login(String email, String senha) {
-        Boolean login = false;
+    public Usuario validaUser(Usuario user) {
+        Usuario usuarioValido = new Usuario();
         try {
-            java.sql.Connection conexao = Conexao.getConn();
+            Connection con = Conexao.getConn();
             PreparedStatement stmt = null;
             ResultSet rs = null;
-            String query = "SELECT * FROM usuario WHERE email = ? AND senha = ?";
-
-            stmt = conexao.prepareStatement(query);
-            stmt.setString(1, email);
-            stmt.setString(2, senha);
-
+            
+            stmt = con.prepareStatement("SELECT * FROM usuarios WHERE email = ? AND senha = ?");
+            stmt.setString(1, user.getEmail());
+            stmt.setString(2, user.getSenha());
             rs = stmt.executeQuery();
-            if (rs.next()) {
-                login = true;
+            
+            if(rs.next()) {
+                usuarioValido.setIdUsuario(rs.getInt("idusuario"));
+                usuarioValido.setNome(rs.getString("nome"));
+                usuarioValido.setEmail(rs.getString("email"));
+                usuarioValido.setTelefone(rs.getString("telefone"));
+                usuarioValido.setCpf(rs.getString("cpf"));
+              
             }
+            
             rs.close();
             stmt.close();
-            conexao.close();
+            con.close();
         } catch (SQLException e) {
             e.printStackTrace();
+            usuarioValido.setIdUsuario(0);
+            usuarioValido.setNome("");
+            usuarioValido.setEmail("");
         }
-        return login;
+        return usuarioValido;
     }
 
     public Usuario getUsuarioByEmail(String email) {
