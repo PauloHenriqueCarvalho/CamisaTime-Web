@@ -25,6 +25,12 @@ create table categoria (
 	idCategoria int primary key auto_increment,
     nome varchar(100) not null
 );
+create table subcategoria (
+	idSubcategoria int primary key auto_increment,
+    nome varchar(100) not null,
+    categoria int,
+    foreign key(categoria) references categoria(idCategoria)
+);
 create table clube (
 	idClube int primary key auto_increment,
     nome varchar(100) not null
@@ -40,8 +46,10 @@ create table produto (
     valorFinal float(10,2) not null,
     imagem longblob,
     categoria int not null,
-    clube int not null,
+    subcategoria int,
+    clube int,
     foreign key (clube) references clube(idClube),
+    foreign key (subcategoria) references subcategoria(idSubcategoria),
     foreign key (categoria) references categoria(idCategoria)
 );
 
@@ -80,6 +88,7 @@ create table carrinho_produto (
 create table produto_pedido (
 	idProduto_pedido int primary key auto_increment,
     pedido int not null,
+    tamanho varchar(30),
     produto int not null,
     foreign key (pedido) references pedido(idPedido),
     foreign key (produto) references produto(idProduto)
@@ -107,59 +116,57 @@ DELIMITER ;
 
 DELIMITER //
 
-INSERT INTO clube (nome) VALUES ('Clube A');
-INSERT INTO clube (nome) VALUES ('Clube B');
-INSERT INTO clube (nome) VALUES ('Clube C');
+INSERT INTO usuario (nome, email, senha, cpf, telefone) VALUES
+('João Silva', 'joao@example.com', 'senha123', '12345678901', '1234567890'),
+('Maria Oliveira', 'maria@example.com', 'senha456', '98765432109', '3456789012'),
+('Pedro Santos', 'pedro@example.com', 'senha789', '45678901234', '5678901234'),
+('Ana Souza', 'ana@example.com', 'senhaabc', '23456789012', '6789012345'),
+('Carlos Silva', 'carlos@example.com', 'senhaxyz', '34567890123', '7890123456');
 
-
-INSERT INTO usuario (nome, email, senha, cpf, telefone) VALUES ('João Silva', 'joao@example.com', 'senha123', '12345678901', '(12) 3456-7890');
-INSERT INTO usuario (nome, email, senha, cpf, telefone) VALUES ('Maria Oliveira', 'maria@example.com', 'senha456', '98765432109', '(34) 5678-9012');
+-- Inserts para tabela 'endereco'
+INSERT INTO endereco (estado, cidade, cep, rua, numero, complemento) VALUES
+('São Paulo', 'São Paulo', '01234-567', 'Rua A', '123', 'Apartamento 1'),
+('Rio de Janeiro', 'Rio de Janeiro', '23456-789', 'Rua B', '456', NULL),
+('Belo Horizonte', 'Belo Horizonte', '34567-890', 'Rua C', '789', NULL),
+('Salvador', 'Salvador', '45678-901', 'Rua D', '1011', 'Casa 2'),
+('Porto Alegre', 'Porto Alegre', '56789-012', 'Rua E', '1213', 'Bloco B');
 
 -- Inserts para tabela 'categoria'
-INSERT INTO categoria (nome) VALUES ('Eletrônicos');
-INSERT INTO categoria (nome) VALUES ('Moda');
-INSERT INTO categoria (nome) VALUES ('Esportes');
-INSERT INTO categoria (nome) VALUES ('Casa');
+INSERT INTO categoria (nome) VALUES
+('Seleções Nacionais'),
+('Clubes Europeus'),
+('Clubes Sul-Americanos'),
+('Outros');
 
-INSERT INTO produto (nome, valor, desconto, valorFinal, imagem, categoria, clube) VALUES ('Smartphone', 1500.00, 100.00, 1400.00, NULL, 1, 1);
-INSERT INTO produto (nome, valor, desconto, valorFinal, imagem, categoria, clube) VALUES ('Notebook', 2500.00, 200.00, 2300.00, NULL, 1, 2);
-INSERT INTO produto (nome, valor, desconto, valorFinal, imagem, categoria, clube) VALUES ('Camiseta', 50.00, 10.00, 45.00, NULL, 2, 1);
-INSERT INTO produto (nome, valor, desconto, valorFinal, imagem, categoria, clube) VALUES ('Tênis', 200.00, 20.00, 180.00, NULL, 3, 3);
-INSERT INTO produto (nome, valor, desconto, valorFinal, imagem, categoria, clube) VALUES ('Sofá', 800.00, 50.00, 750.00, NULL, 4, 1);
-INSERT INTO produto (nome, valor, desconto, valorFinal, imagem, categoria, clube) VALUES ('TV', 1000.00, 100.00, 900.00, NULL, 1, 3);
-INSERT INTO produto (nome, valor, desconto, valorFinal, imagem, categoria, clube) VALUES ('Vestido', 80.00, 5.00, 75.00, NULL, 2, 2);
-INSERT INTO produto (nome, valor, desconto, valorFinal, imagem, categoria, clube) VALUES ('Bicicleta', 300.00, 30.00, 270.00, NULL, 3, 1);
-INSERT INTO produto (nome, valor, desconto, valorFinal, imagem, categoria, clube) VALUES ('Mesa', 150.00, 15.00, 135.00, NULL, 4, 2);
-INSERT INTO produto (nome, valor, desconto, valorFinal, imagem, categoria, clube) VALUES ('Cadeira', 50.00, 5.00, 45.00, NULL, 4, 3);
+-- Inserts para tabela 'subcategoria'
+INSERT INTO subcategoria (nome, categoria) VALUES
+('Brasil', 1),      -- Subcategoria para camisetas da seleção brasileira
+('Barcelona', 2),   -- Subcategoria para camisetas do Barcelona
+('Flamengo', 3),    -- Subcategoria para camisetas do Flamengo
+('Real Madrid', 2), -- Subcategoria para camisetas do Real Madrid
+('Argentina', 1);   -- Subcategoria para camisetas da seleção argentina
 
-INSERT INTO produto (nome, valor, desconto, valorFinal, categoria, clube) VALUES 
-('Produto A', 50.00, 5.00, 45.00, 1, 1),
-('Produto B', 30.00, 0.00, 30.00, 2, 1),
-('Produto C', 20.00, 2.00, 18.00, 1, 2),
-('Produto D', 45.00, 3.50, 41.50, 3, 2),
-('Produto E', 60.00, 0.00, 60.00, 2, 3),
-('Produto F', 25.00, 1.00, 24.00, 1, 3),
-('Produto G', 35.00, 0.00, 35.00, 2, 1),
-('Produto H', 40.00, 4.00, 36.00, 3, 2),
-('Produto I', 55.00, 5.50, 49.50, 1, 3),
-('Produto J', 70.00, 0.00, 70.00, 2, 1),
-('Produto K', 15.00, 1.50, 13.50, 3, 1),
-('Produto L', 28.00, 0.00, 28.00, 1, 2),
-('Produto M', 38.00, 3.80, 34.20, 2, 2),
-('Produto N', 48.00, 0.00, 48.00, 3, 3),
-('Produto O', 65.00, 6.50, 58.50, 1, 3),
-('Produto P', 22.00, 2.20, 19.80, 2, 1),
-('Produto Q', 33.00, 0.00, 33.00, 3, 2),
-('Produto R', 42.00, 4.20, 37.80, 1, 3),
-('Produto S', 58.00, 0.00, 58.00, 2, 1),
-('Produto T', 17.00, 1.70, 15.30, 3, 2),
-('Produto U', 27.00, 0.00, 27.00, 1, 3),
-('Produto V', 37.00, 3.70, 33.30, 2, 3),
-('Produto W', 46.00, 0.00, 46.00, 3, 1),
-('Produto X', 62.00, 6.20, 55.80, 1, 1),
-('Produto Y', 19.00, 1.90, 17.10, 2, 2),
-('Produto Z', 31.00, 0.00, 31.00, 3, 3),
-('Produto AA', 41.00, 4.10, 36.90, 1, 1),
-('Produto AB', 56.00, 0.00, 56.00, 2, 2),
-('Produto AC', 23.00, 2.30, 20.70, 3, 3),
-('Produto AD', 34.00, 0.00, 34.00, 1, 2);
+-- Inserts para tabela 'clube'
+INSERT INTO clube (nome) VALUES
+('Flamengo'),
+('Barcelona'),
+('Real Madrid'),
+('Santos'),
+('Boca Juniors');
+
+-- Inserts para tabela 'produto'
+INSERT INTO produto (nome, valor, desconto, valorFinal, categoria, subcategoria, clube) VALUES
+('Camiseta Brasil', 50.00, 0.00, 50.00, 1, 1, NULL),
+('Camiseta Barcelona', 60.00, 5.00, 55.00, 1, 2, 2),
+('Camiseta Flamengo', 45.00, 0.00, 45.00, 1, 3, 1),
+('Camiseta Real Madrid', 55.00, 0.00, 55.00, 1, 4, 3),
+('Camiseta Boca Juniors', 50.00, 0.00, 50.00, 1, 5, 5);
+
+-- Inserts para tabela 'estoque'
+INSERT INTO estoque (produto, quantidade, custo) VALUES
+(1, 50, 25.00), -- Camiseta Brasil
+(2, 30, 30.00), -- Camiseta Barcelona
+(3, 40, 20.00), -- Camiseta Flamengo
+(4, 25, 27.00), -- Camiseta Real Madrid
+(5, 35, 22.00); -- Camiseta Boca Juniors
+
