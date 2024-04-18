@@ -122,9 +122,10 @@
                         <p>${categoria.nome}</p>
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <c:forEach items="${subcategoria}" var="subcategoria">
+
+                            <li><a class="dropdown-item" href="#">${subcategoria.nome}</a></li>
+                        </c:forEach>
                     </ul>
                 </div>
 
@@ -178,7 +179,7 @@
     <section>
         <div class="cards">
 
-            <c:forEach items="${produtoss}" var="produto">
+            <c:forEach items="${produtos}" var="produto">
                 <a href="./produto-item">
                     <div class="card" style="width: 18rem;">
                         <img src="./assets/Captura de tela 2024-04-08 004959.png" class="card-img-top" alt="...">

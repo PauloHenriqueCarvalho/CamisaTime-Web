@@ -21,24 +21,20 @@ import model.dao.UsuarioDAO;
  */
 public class LoginController extends HttpServlet {
 
-   
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String nextPage ="/WEB-INF/jsp/login.jsp";
-        
-        
+        String nextPage = "/WEB-INF/jsp/login.jsp";
+
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextPage);
         dispatcher.forward(request, response);
     }
 
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
         String url = request.getServletPath();
-        if (url.equals("/login")) {
+        if (url.equals("/logar")) {
             String nextPage = "/WEB-INF/jsp/index.jsp";
             Usuario user = new Usuario();
             UsuarioDAO valida = new UsuarioDAO();
@@ -50,8 +46,9 @@ public class LoginController extends HttpServlet {
                 Usuario userAutenticado = valida.validaUser(user);
 
                 if (userAutenticado != null && !userAutenticado.getNome().isEmpty()) {
-                    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextPage);
-                    dispatcher.forward(request, response);
+                    response.sendRedirect("./Produtos");
+                    
+                    
                 } else {
                     nextPage = "/WEB-INF/jsp/login.jsp";
                     request.setAttribute("errorMessage", "Usuário ou senha inválidos");
@@ -65,12 +62,10 @@ public class LoginController extends HttpServlet {
                 dispatcher.forward(request, response);
             }
         } else {
-           
             processRequest(request, response);
         }
     }
 
-    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

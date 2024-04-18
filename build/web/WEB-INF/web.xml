@@ -53,8 +53,16 @@
         <url-pattern>/cadastro-usuario</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>cadastroUsuarioController</servlet-name>
+        <url-pattern>/cadastrar</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/Login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginController</servlet-name>
+        <url-pattern>/logar</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>meusPedidosController</servlet-name>

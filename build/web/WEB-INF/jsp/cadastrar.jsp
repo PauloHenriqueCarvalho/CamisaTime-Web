@@ -11,7 +11,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
 
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
 
@@ -63,20 +68,29 @@
         </div>
     </header>
     <main class="cadastro">
-        <form class="form-container">
+        <form class="form-container" action="cadastrar" method="post">
             <div class="mb-3">
               <label for="exampleInputEmail1" class="form-label">Email </label>
-              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+              <input type="email" class="form-control" id="idEmail"  name="idEmail" aria-describedby="emailHelp">
               <div id="emailHelp" class="form-text">Nunca compartilharemos seu e-mail com mais ninguém.</div>
         
               <label for="exampleInputPassword1" class="form-label">Senha</label>
-              <input type="password" class="form-control" id="exampleInputPassword1">
+              <input type="password" name="senha" class="form-control" id="senha">
+              
               <label  class="form-label">Nome </label>
               <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+              
+              <label class="form-label">Telefone</label>
+              <input type="tel" name="telefone" class="form-control" id="telefone">
+              
+              <label class="form-label">Nome</label>
+              <input type="text" name="nome" class="form-control" id="nome">
+              
+              <label for="exampleInputPassword1" class="form-label">CPF</label>
+              <input type="tel" name="telefone" class="form-control" id="telefone">
 
-           
-              <label for="exampleInputPassword1" class="form-label">Telefone</label>
-              <input type="tel" class="form-control" id="exampleInputPassword1">
+                
+
             
             
             </div>
@@ -86,7 +100,7 @@
 
     </main>
 
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>

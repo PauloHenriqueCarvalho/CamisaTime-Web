@@ -26,7 +26,7 @@ public class SubcategoriaDAO {
             PreparedStatement stmt = null;
             ResultSet rs = null;
 
-            stmt = conexao.prepareStatement("SELECT * FROM categoria");
+            stmt = conexao.prepareStatement("SELECT * FROM subcategoria");
 
             rs = stmt.executeQuery();
 

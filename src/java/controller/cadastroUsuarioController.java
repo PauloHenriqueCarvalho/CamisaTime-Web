@@ -12,6 +12,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.bean.Usuario;
+import model.dao.UsuarioDAO;
 
 /**
  *
@@ -32,7 +34,7 @@ public class cadastroUsuarioController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String nextPage = "/WEB-INF/jsp/cadastrar.jsp";
-                         
+                        
         
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextPage);
         dispatcher.forward(request, response);
@@ -65,7 +67,32 @@ public class cadastroUsuarioController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String url = request.getServletPath();
+        
+        if(url.equals("/cadastrar")){
+            String nextPage = "/WEB-INF/jsp/index.jsp";
+            
+            Usuario u = new Usuario();
+            UsuarioDAO dao = new UsuarioDAO();
+            
+            u.setEmail(request.getParameter("idEmail"));
+            u.setSenha(request.getParameter("senha"));
+            u.setNome(request.getParameter("nome"));
+            u.setCpf(request.getParameter("cpf"));
+            u.setTelefone(request.getParameter("telefone"));
+            try{
+                dao.create(u);
+                RequestDispatcher d = getServletContext().getRequestDispatcher(url);
+                d.forward(request, response);
+            } catch(Exception e){
+                nextPage = "/WEB-INF/jsp/cadastrar.jsp";
+                request.setAttribute("errorMessage", "Cadastro não realizado corretamente");
+                RequestDispatcher d = getServletContext().getRequestDispatcher(url);
+                d.forward(request, response);
+            }   
+        } else {
+            processRequest(request, response);
+        }
     }
 
     /**

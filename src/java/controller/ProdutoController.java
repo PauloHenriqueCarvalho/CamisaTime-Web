@@ -41,10 +41,10 @@ public class ProdutoController extends HttpServlet {
         request.setAttribute("categorias", categoria);
         
         ProdutoDAO dao = new ProdutoDAO();
-        List<Produto> a = dao.listarTodos();
+        List<Produto> produto = dao.listarTodos();
         
         
-        request.setAttribute("produtos", a);
+        request.setAttribute("produtos", produto);
         String url = "/WEB-INF/jsp/index.jsp";
         
         RequestDispatcher d = getServletContext().getRequestDispatcher(url);
