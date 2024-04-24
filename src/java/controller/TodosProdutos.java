@@ -13,71 +13,64 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.bean.CarrinhoProduto;
-import model.bean.Categoria;
 import model.bean.Produto;
-import model.bean.Subcategoria;
-import model.bean.Usuario;
-import model.dao.CarrinhoProdutoDAO;
-import model.dao.CategoriaDAO;
 import model.dao.ProdutoDAO;
-import model.dao.SubcategoriaDAO;
-import model.dao.UsuarioDAO;
 
 /**
  *
- * @author paulo
+ * @author Senai
  */
-public class ProdutoController extends HttpServlet {
+public class TodosProdutos extends HttpServlet {
 
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
-        SubcategoriaDAO daoSub = new SubcategoriaDAO();
-        List<Subcategoria> sub = daoSub.listarTodos();        
-        request.setAttribute("subcategoria", sub);    
-        
-        CategoriaDAO daoCate = new CategoriaDAO();
-        List<Categoria> categoria = daoCate.listarTodos();    
-        request.setAttribute("categorias", categoria);
-       
+        String url = "/WEB-INF/jsp/todosProdutos.jsp";
         ProdutoDAO dao = new ProdutoDAO();
-        List<Produto> produto = dao.listarTodos();
+        int id = Integer.parseInt(request.getParameter("id"));
+        System.out.println("IDD:" + id);
+//        int id = 1
+        List<Produto> produto = dao.listarPorSubcategoria(id);
         request.setAttribute("produtos", produto);
-        
-        CarrinhoProdutoDAO car = new CarrinhoProdutoDAO();
-        
-        int idCarrinho = Integer.parseInt(request.getParameter("idUsuario"));
-        List<Produto> carrinho = car.listarProdutosDoCarrinho(idCarrinho);      
-        System.out.println("NOME> " + carrinho);
-        request.setAttribute("carrinhos", carrinho); 
-        
-    
-        UsuarioDAO u = new UsuarioDAO();
-        System.out.println("IDDDD: " + idCarrinho);
-        System.out.println("e: " + u.getName(idCarrinho));
-        
-        
-        
-        Usuario usuario = u.getName(Usuario.getIdUsuario());
-        request.setAttribute("usuario", usuario);
-        
-        String url = "/WEB-INF/jsp/index.jsp";
+       
         
         RequestDispatcher d = getServletContext().getRequestDispatcher(url);
         d.forward(request, response);
-       
+        
     }
 
-
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

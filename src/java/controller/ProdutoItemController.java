@@ -12,6 +12,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.bean.Produto;
+import model.dao.ProdutoDAO;
 
 /**
  *
@@ -31,8 +33,13 @@ public class ProdutoItemController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = "/WEB-INF/jsp/produto.jsp";
         
+        ProdutoDAO dao = new ProdutoDAO();
+        int idProduto = Integer.parseInt(request.getParameter("id"));
+        Produto produto  = dao.readById(idProduto);
+        request.setAttribute("produto", produto);
+        
+        String url = "/WEB-INF/jsp/produto.jsp";
         RequestDispatcher d = getServletContext().getRequestDispatcher(url);
         d.forward(request, response);
     }

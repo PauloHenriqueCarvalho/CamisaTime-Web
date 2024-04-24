@@ -131,16 +131,16 @@ public class ProdutoDAO {
         return produtos;
     }
     
-    public List<Produto> listarPorSubcategoria(Subcategoria subcategoria) {
+    public List<Produto> listarPorSubcategoria(int id) {
         List<Produto> produtos = new ArrayList<>();
         try {
             Connection conexao = Conexao.getConn();
             PreparedStatement stmt = null;
             ResultSet rs = null;
-            String query = "SELECT * FROM produto AS p INNER JOIN subcategoria AS s ON p.subcategoria = s.idSubcategoria WHERE s.nome = ?";
+            String query = "SELECT * FROM produto AS p INNER JOIN subcategoria AS s ON p.subcategoria = s.idSubcategoria WHERE s.idSubcategoria = ?";
 
             stmt = conexao.prepareStatement(query);
-            stmt.setString(1, subcategoria.getNome());
+            stmt.setInt(1, id);
 
             rs = stmt.executeQuery();
 

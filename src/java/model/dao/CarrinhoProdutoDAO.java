@@ -12,6 +12,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import model.bean.Carrinho;
 import model.bean.Produto;
 
@@ -57,4 +59,39 @@ public class CarrinhoProdutoDAO {
 
         }
     }
+    
+    public List<Produto> listarProdutosDoCarrinho(int idCarrinho) {
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Produto> produtos = new ArrayList<>();
+        Connection con = Conexao.getConn();
+        try {
+            stmt = con.prepareStatement("SELECT p.* FROM Produto p "
+                                        + "INNER JOIN carrinho_produto cp ON p.idProduto = cp.produto "
+                                        + "WHERE cp.carrinho = ?");
+            stmt.setInt(1, idCarrinho);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Produto produto = new Produto();
+                produto.setIdProduto(rs.getInt("idProduto"));
+                produto.setNome(rs.getString("nome"));
+                produto.setValor(rs.getFloat("valor"));
+                produto.setDesconto(rs.getFloat("desconto"));
+                produto.setValorFinal(rs.getFloat("valorFinal"));
+                // Defina outros atributos do produto conforme necessário
+                System.out.println("Nome do produto: " + produto.getNome());
+                produtos.add(produto);
+            }
+            rs.close();
+            stmt.close();
+            con.close();
+        } catch (SQLException ex) {
+            
+            System.err.println("Erro ao listar produtos do carrinho: " + ex);
+        }
+        return produtos;
+    }
+
+    
 }

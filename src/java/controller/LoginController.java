@@ -41,12 +41,14 @@ public class LoginController extends HttpServlet {
 
             user.setEmail(request.getParameter("email"));
             user.setSenha(request.getParameter("senha"));
-
+            
             try {
                 Usuario userAutenticado = valida.validaUser(user);
 
                 if (userAutenticado != null && !userAutenticado.getNome().isEmpty()) {
-                    response.sendRedirect("./Produtos");
+                    int idUsuario = valida.getId(request.getParameter("email"));
+                    Usuario.setIdUsuario(idUsuario);
+                    response.sendRedirect("./Produtos?idUsuario="+ idUsuario);
                     
                     
                 } else {

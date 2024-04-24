@@ -7,7 +7,6 @@ package model.dao;
 
 import java.sql.Connection;
 
-
 import conexao.Conexao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -47,21 +46,21 @@ public class UsuarioDAO {
             Connection con = Conexao.getConn();
             PreparedStatement stmt = null;
             ResultSet rs = null;
-            
+
             stmt = con.prepareStatement("SELECT * FROM usuario WHERE email = ? AND senha = ?");
             stmt.setString(1, user.getEmail());
             stmt.setString(2, user.getSenha());
             rs = stmt.executeQuery();
-            
-            if(rs.next()) {
+
+            if (rs.next()) {
                 usuarioValido.setIdUsuario(rs.getInt("idusuario"));
                 usuarioValido.setNome(rs.getString("nome"));
                 usuarioValido.setEmail(rs.getString("email"));
                 usuarioValido.setTelefone(rs.getString("telefone"));
                 usuarioValido.setCpf(rs.getString("cpf"));
-              
+
             }
-            
+
             rs.close();
             stmt.close();
             con.close();
@@ -74,10 +73,63 @@ public class UsuarioDAO {
         return usuarioValido;
     }
 
+    public int getId(String user) {
+        int id = 0;
+        try {
+            Connection con = Conexao.getConn();
+            PreparedStatement stmt = null;
+            ResultSet rs = null;
+
+            stmt = con.prepareStatement("SELECT * FROM usuario WHERE email = ?");
+            stmt.setString(1, user);
+
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                Usuario.setIdUsuario(rs.getInt("idUsuario"));
+                id = rs.getInt("idUsuario");
+
+            }
+            rs.close();
+            stmt.close();
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return id;
+    }
+
+    public Usuario getName(int id) {
+        Usuario u = null;
+
+        try {
+            Connection con = Conexao.getConn();
+            PreparedStatement stmt = null;
+            ResultSet rs = null;
+
+            stmt = con.prepareStatement("SELECT * FROM usuario WHERE idUsuario = ?");
+            stmt.setInt(1, id);
+
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                // Aqui você precisa instanciar um objeto Usuario
+                u = new Usuario();
+                u.setNome(rs.getString("nome"));
+            }
+            rs.close();
+            stmt.close();
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return u;
+    }
+
     public Usuario getUsuarioByEmail(String email) {
         Usuario u = new Usuario();
         try {
-           java.sql.Connection conexao = Conexao.getConn();
+            java.sql.Connection conexao = Conexao.getConn();
             PreparedStatement stmt = null;
             ResultSet rs = null;
 
@@ -150,7 +202,7 @@ public class UsuarioDAO {
 
     public void delete(Usuario u) {
         try {
-           java.sql.Connection conexao = Conexao.getConn();
+            java.sql.Connection conexao = Conexao.getConn();
             PreparedStatement stmt = null;
 
             stmt = conexao.prepareStatement("UPDATE usuario SET nome = ?, email = ?, senha = ?, cpf = ?, telefone = ? WHERE idUsuario = ?");

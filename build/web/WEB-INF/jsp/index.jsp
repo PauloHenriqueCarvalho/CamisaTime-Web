@@ -1,3 +1,4 @@
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -41,8 +42,7 @@
 
         </div>
 
-        <div class="carrinho">
-
+       <div class="carrinho">
             <div class="ls-cart">
                 <input type="checkbox" class="ls-checkbox-cart">
                 <header class="ls-cart-header">
@@ -50,41 +50,31 @@
                 </header>
                 <div class="ls-cart-content">
                     <ul class="ls-no-list-style">
-                        <li>
-                            <h2 class="ls-title-product">
-                                <strong>01</strong> Email Marketing Locaweb
-                            </h2>
-                            <p> (Identificador) </p>
-                            <a href="">Excluir</a>
-                        </li>
-                        <li>
-                            <h2 class="ls-title-product">
-                                <strong>02</strong> Monitor LED 27"
-                            </h2>
-                            <p> (Identificador) </p>
-                            <a href="">Excluir</a>
-                        </li>
-                        <li>
-                            <h2 class="ls-title-product">
-                                <strong>06</strong> Honda FIT 2010 4p Flex 1.4 16v
-                            </h2>
-                            <p> (Identificador) </p>
-                            <a href="">Excluir</a>
-                        </li>
-                        <li>
-                            <h2 class="ls-title-product">
-                                <strong>01</strong> Lorem Ipsum is simply dummy text
-                            </h2>
-                            <p> (Identificador) </p>
-                            <a href="">Excluir</a>
-                        </li>
-                    </ul>
-                    <footer class="ls-cart-footer ls-txt-center">
-                        <a href="" class="ls-btn-primary">Finalizar Compra</a>
-                    </footer>
+                        <c:choose>
+                            <c:when test="${empty carrinhos}">
+                                <li>
+                                    <p>O seu carrinho está vazio.</p>
+                                </li>
+                            </c:when>
+                            <c:otherwise>
+                                <c:forEach items="${carrinhos}" var="carrinho">
+                                    <li>
+                                        <h2 class="ls-title-product">
+                                            <strong>01</strong>${carrinho.nome}
+                                        </h2>
+                                        <p> R$ ${carrinho.valor}</p>
+                                        <a href="#">Excluir</a>
+                                    </li>
+                                </c:forEach>
+                            </ul>
+                            <footer class="ls-cart-footer ls-txt-center">
+                                <a href="" class="ls-btn-primary">Finalizar Compra</a>
+                            </footer>
+                        </c:otherwise>
+                    </c:choose>
+
                 </div>
             </div>
-
         </div>
         <div class="search">
             <form  class="d-flex" role="search">
@@ -99,14 +89,25 @@
                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fa-solid fa-user"></i>
                 </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="./Login">Login</a></li>
-                    <li><a class="dropdown-item" href="./cadastro-usuario">Cadastre-se</a></li>
-                    <li><a class="dropdown-item" href="./meus-pedidos">Meus Pedidos</a></li>
-                    <li><a class="dropdown-item" href="./produto-item">Produto Individual</a></li>
-                    <li><a class="dropdown-item" href="#">Log out</a></li>
+                <c:choose>
+                            <c:when test="${usuario.idUsuario != 0}">
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="./Login">Login</a></li>
+                                    <li><a class="dropdown-item" href="./cadastro-usuario">Cadastre-se</a></li>
+                                    <li><a class="dropdown-item" href="./produto-item">Criar Produto</a></li>
 
-                </ul>
+                                </ul>
+                            </c:when>
+                            <c:otherwise>
+                                <ul class="dropdown-menu">
+                                    <p>${usuario.nome}</p>
+                                    <li><a class="dropdown-item" href="./meus-pedidos">Meus Pedidos</a></li>
+                                    <li><a class="dropdown-item" href="./Produtos?idUsuario=0">Log out</a></li>
+
+                                </ul>
+                        </c:otherwise>
+                    </c:choose>
+                
             </div>
 
 
@@ -124,8 +125,8 @@
                     <ul class="dropdown-menu">
                         <c:forEach items="${subcategoria}" var="subcategoria">
 
-                            <li><a class="dropdown-item" href="#">${subcategoria.nome}</a></li>
-                        </c:forEach>
+                            <li><a class="dropdown-item" href="./todosProdutos?id=${subcategoria.idSubcategoria}">${subcategoria.nome}</a></li>
+                            </c:forEach>
                     </ul>
                 </div>
 
@@ -178,9 +179,8 @@
 
     <section>
         <div class="cards">
-
             <c:forEach items="${produtos}" var="produto">
-                <a href="./produto-item">
+                <a href="./produto-item?id=${produto.idProduto}">
                     <div class="card" style="width: 18rem;">
                         <img src="./assets/Captura de tela 2024-04-08 004959.png" class="card-img-top" alt="...">
                         <div class="card-body">
@@ -192,13 +192,15 @@
                         </div>
                     </div>
                 </a>
-
-
             </c:forEach>
-
-
         </div>
+
     </section>
+
+    <footer>
+        <a href="./todosProdutos"><button>BOTAO</button></a>
+
+    </footer>
 
     <script src="//assets.locaweb.com.br/locastyle/edge/javascripts/locastyle.js"></script>
 

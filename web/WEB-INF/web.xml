@@ -36,6 +36,10 @@
         <servlet-name>ProdutoItemController</servlet-name>
         <servlet-class>controller.ProdutoItemController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>TodosProdutos</servlet-name>
+        <servlet-class>controller.TodosProdutos</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>*.htm</url-pattern>
@@ -71,6 +75,10 @@
     <servlet-mapping>
         <servlet-name>ProdutoItemController</servlet-name>
         <url-pattern>/produto-item</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TodosProdutos</servlet-name>
+        <url-pattern>/todosProdutos</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

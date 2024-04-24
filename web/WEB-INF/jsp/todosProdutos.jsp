@@ -1,4 +1,4 @@
-
+<%@page import="model.bean.Usuario"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -24,7 +24,7 @@
 
         <script src="https://kit.fontawesome.com/0ba8cb147b.js" crossorigin="anonymous"></script>
 
-        <title>Pagina Inicial</title>
+        <title>Produtos</title>
     </head>
 
     <body>
@@ -36,13 +36,15 @@
         </div>
     <header>
         <div class="logo">
-            <a href="./Produtos">
+            <%
+        int idU = Usuario.getIdUsuario(); // Supondo que você tenha um objeto 'usuario' disponível na sua página JSP que possui o método getIdUsuario() para obter o ID do usuário.
+%>
+            <a href="./Produtos?idUsuario=<%= idU%>">
                 <h1>FanFut Store</h1>
             </a>
-
         </div>
+        <div class="carrinho">
 
-       <div class="carrinho">
             <div class="ls-cart">
                 <input type="checkbox" class="ls-checkbox-cart">
                 <header class="ls-cart-header">
@@ -50,31 +52,41 @@
                 </header>
                 <div class="ls-cart-content">
                     <ul class="ls-no-list-style">
-                        <c:choose>
-                            <c:when test="${empty carrinhos}">
-                                <li>
-                                    <p>O seu carrinho está vazio.</p>
-                                </li>
-                            </c:when>
-                            <c:otherwise>
-                                <c:forEach items="${carrinhos}" var="carrinho">
-                                    <li>
-                                        <h2 class="ls-title-product">
-                                            <strong>01</strong>${carrinho.nome}
-                                        </h2>
-                                        <p> R$ ${carrinho.valor}</p>
-                                        <a href="#">Excluir</a>
-                                    </li>
-                                </c:forEach>
-                            </ul>
-                            <footer class="ls-cart-footer ls-txt-center">
-                                <a href="" class="ls-btn-primary">Finalizar Compra</a>
-                            </footer>
-                        </c:otherwise>
-                    </c:choose>
-
+                        <li>
+                            <h2 class="ls-title-product">
+                                <strong>01</strong> Email Marketing Locaweb
+                            </h2>
+                            <p> (Identificador) </p>
+                            <a href="">Excluir</a>
+                        </li>
+                        <li>
+                            <h2 class="ls-title-product">
+                                <strong>02</strong> Monitor LED 27"
+                            </h2>
+                            <p> (Identificador) </p>
+                            <a href="">Excluir</a>
+                        </li>
+                        <li>
+                            <h2 class="ls-title-product">
+                                <strong>06</strong> Honda FIT 2010 4p Flex 1.4 16v
+                            </h2>
+                            <p> (Identificador) </p>
+                            <a href="">Excluir</a>
+                        </li>
+                        <li>
+                            <h2 class="ls-title-product">
+                                <strong>01</strong> Lorem Ipsum is simply dummy text
+                            </h2>
+                            <p> (Identificador) </p>
+                            <a href="">Excluir</a>
+                        </li>
+                    </ul>
+                    <footer class="ls-cart-footer ls-txt-center">
+                        <a href="" class="ls-btn-primary">Finalizar Compra</a>
+                    </footer>
                 </div>
             </div>
+
         </div>
         <div class="search">
             <form  class="d-flex" role="search">
@@ -90,29 +102,25 @@
                     <i class="fa-solid fa-user"></i>
                 </button>
                 <c:choose>
-                            <c:when test="${usuario.idUsuario != 0}">
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="./Login">Login</a></li>
-                                    <li><a class="dropdown-item" href="./cadastro-usuario">Cadastre-se</a></li>
-                                    <li><a class="dropdown-item" href="./produto-item">Criar Produto</a></li>
+                    <c:when test="${usuario.idUsuario != 0}">
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="./Login">Login</a></li>
+                            <li><a class="dropdown-item" href="./cadastro-usuario">Cadastre-se</a></li>
+                            <li><a class="dropdown-item" href="./produto-item">Criar Produto</a></li>
 
-                                </ul>
-                            </c:when>
-                            <c:otherwise>
-                                <ul class="dropdown-menu">
-                                    <p>${usuario.nome}</p>
-                                    <li><a class="dropdown-item" href="./meus-pedidos">Meus Pedidos</a></li>
-                                    <li><a class="dropdown-item" href="./Produtos?idUsuario=0">Log out</a></li>
+                        </ul>
+                    </c:when>
+                    <c:otherwise>
+                        <ul class="dropdown-menu">
+                            <p>${usuario.nome}</p>
+                            <li><a class="dropdown-item" href="./meus-pedidos">Meus Pedidos</a></li>
+                            <li><a class="dropdown-item" href="./Produtos?idUsuario=0">Log out</a></li>
 
-                                </ul>
-                        </c:otherwise>
-                    </c:choose>
-                
+                        </ul>
+                    </c:otherwise>
+                </c:choose>
+
             </div>
-
-
-
-        </div>
     </header>
 
     <div class="container-baixo">
@@ -125,52 +133,17 @@
                     <ul class="dropdown-menu">
                         <c:forEach items="${subcategoria}" var="subcategoria">
 
-                            <li><a class="dropdown-item" href="./todosProdutos?id=${subcategoria.idSubcategoria}">${subcategoria.nome}</a></li>
+                            <li><a class="dropdown-item" href="#">${subcategoria.nome}</a></li>
                             </c:forEach>
                     </ul>
                 </div>
 
             </c:forEach>
-
-
         </div>
     </div>
 
     <main>
-        <div id="container-carrosel">
-            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                <ol class="carousel-indicators">
-                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                </ol>
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img class="d-block w-100"
-                             src="./assets/Captura de tela 2024-04-08 003833.png"
-                             alt="First slide">
-                    </div>
-                    <div class="carousel-item">
-                        <img class="d-block w-100"
-                             src="./assets/Captura de tela 2024-04-08 003839.png"
-                             alt="Second slide">
-                    </div>
-                    <div class="carousel-item">
-                        <img class="d-block w-100"
-                             src="./assets/Captura de tela 2024-04-08 003844.png"
-                             alt="Third slide">
-                    </div>
-                </div>
-                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </div>
-        </div>
+
 
         <div class="info">
             <p><i id="wallet" class="fa-solid fa-wallet"></i> <span id="txt">Parcelamos em até 10x</span></p>
@@ -179,6 +152,7 @@
 
     <section>
         <div class="cards">
+
             <c:forEach items="${produtos}" var="produto">
                 <a href="./produto-item?id=${produto.idProduto}">
                     <div class="card" style="width: 18rem;">
@@ -192,15 +166,13 @@
                         </div>
                     </div>
                 </a>
+
+
             </c:forEach>
+
+
         </div>
-
     </section>
-
-    <footer>
-        <a href="./todosProdutos"><button>BOTAO</button></a>
-
-    </footer>
 
     <script src="//assets.locaweb.com.br/locastyle/edge/javascripts/locastyle.js"></script>
 
