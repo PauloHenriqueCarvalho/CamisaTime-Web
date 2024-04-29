@@ -7,11 +7,12 @@ package model.bean;
 
 /**
  *
- * @author Joao Guilherme
+ * @author Paulo
  */
 public class Usuario {
     
-    private static int idUsuario;
+    private  int idUsuario;
+    private static int idUsuarioStatico;
     private String nome;
     private String email;
     private String senha;
@@ -21,7 +22,8 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(String nome, String email, String senha, String cpf, String telefone) {
+    public Usuario(int idUsuario, String nome, String email, String senha, String cpf, String telefone) {
+        this.idUsuario = idUsuario;
         this.nome = nome;
         this.email = email;
         this.senha = senha;
@@ -29,12 +31,20 @@ public class Usuario {
         this.telefone = telefone;
     }
 
-    public static int getIdUsuario() {
+    public int getIdUsuario() {
         return idUsuario;
     }
 
-    public static void setIdUsuario(int idUsuario) {
-        Usuario.idUsuario = idUsuario;
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public static int getIdUsuarioStatico() {
+        return idUsuarioStatico;
+    }
+
+    public static void setIdUsuarioStatico(int idUsuarioStatico) {
+        Usuario.idUsuarioStatico = idUsuarioStatico;
     }
 
     public String getNome() {
@@ -77,6 +87,12 @@ public class Usuario {
         this.telefone = telefone;
     }
 
-    
+   
+   
+
+   
+
+
+
     
 }

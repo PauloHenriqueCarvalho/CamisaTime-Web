@@ -9,10 +9,11 @@ import java.sql.Blob;
 
 /**
  *
- * @author Joao Guilherme
+ * @author Paulo
  */
 public class Produto {
     private int idProduto;
+    private static int idProdutoStatic;
     private int categoria;
     private String nome;
     private Float valor;
@@ -20,12 +21,15 @@ public class Produto {
     private Float valorFinal;
     private int clube;
     private int subcategoria;
-    private Blob imagem;
+    private byte[] imagemBytes;
+    private String imagemBase64;
+    
+
 
     public Produto() {
     }
 
-    public Produto(int idProduto, int categoria, String nome, Float valor, Float desconto, Float valorFinal, int clube, int subcategoria, Blob imagem) {
+    public Produto(int idProduto, int categoria, String nome, Float valor, Float desconto, Float valorFinal, int clube, int subcategoria, byte[] imagemBytes, String imagemBase64) {
         this.idProduto = idProduto;
         this.categoria = categoria;
         this.nome = nome;
@@ -34,7 +38,8 @@ public class Produto {
         this.valorFinal = valorFinal;
         this.clube = clube;
         this.subcategoria = subcategoria;
-        this.imagem = imagem;
+        this.imagemBytes = imagemBytes;
+        this.imagemBase64 = imagemBase64;
     }
 
     public int getIdProduto() {
@@ -43,6 +48,14 @@ public class Produto {
 
     public void setIdProduto(int idProduto) {
         this.idProduto = idProduto;
+    }
+
+    public static int getIdProdutoStatic() {
+        return idProdutoStatic;
+    }
+
+    public static void setIdProdutoStatic(int idProdutoStatic) {
+        Produto.idProdutoStatic = idProdutoStatic;
     }
 
     public int getCategoria() {
@@ -101,13 +114,24 @@ public class Produto {
         this.subcategoria = subcategoria;
     }
 
-    public Blob getImagem() {
-        return imagem;
+    public byte[] getImagemBytes() {
+        return imagemBytes;
     }
 
-    public void setImagem(Blob imagem) {
-        this.imagem = imagem;
+    public void setImagemBytes(byte[] imagemBytes) {
+        this.imagemBytes = imagemBytes;
     }
+
+    public String getImagemBase64() {
+        return imagemBase64;
+    }
+
+    public void setImagemBase64(String imagemBase64) {
+        this.imagemBase64 = imagemBase64;
+    }
+
+   
+    
 
     
     

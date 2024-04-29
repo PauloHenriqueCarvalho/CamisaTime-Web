@@ -42,7 +42,7 @@ public class PedidoDAO {
      */
     public void create(Pedido p) {
         try {
-            java.sql.Connection conexao = Conexao.getConn();
+            Connection conexao = Conexao.getConn();
             PreparedStatement stmt = null;
 
             stmt = conexao.prepareStatement("INSERT INTO pedido (usuario, endereco_entrega, data_pedido, valor_total) VALUES (?, ?, ?, ?)");

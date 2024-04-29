@@ -37,9 +37,9 @@
         </div>
         <header>
             <div class="logo">
-                <a href="./Produtos?idUsuario=${usuario.idUsuario}">
+                <a href="./Produtos">
                     <h1>FanFut Store</h1>
-                </a>    
+                </a>
             </div>
 
             <div class="carrinho">
@@ -112,71 +112,50 @@
             </div>
         </header>
 
-        <main>
-            <form method="post" action="adicionar" name="frmAdicionar" class="container">
-                <div class="imagem-left">
-                    <img src="data:image/jpeg;base64,${produto.imagemBase64}" alt="${produto.nome}">
-                </div>
-                <div class="descricao-right">
-                    <div class="nome">
-                        <span id="stars">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                        </span>
-                        <p>${produto.nome}</p>
-                    </div>
-                    <div class="valor">
-                        <p>Preço</p>
-                        <p>R$ <span>${produto.valorFinal}</span> <s> R$ ${produto.valor}</s></p>
-                    </div>
-                    <div class="comprar">         
-                        <div class="listaTamanho">
-                            <ul class="list-group">
-                                <li class="list-group-item">
-                                    <input class="form-check-input me-1" type="radio" name="listGroupRadio" value="P" id="firstRadio" checked>
-                                    <label class="form-check-label" for="firstRadio">P</label>
-                                </li>
-                                <li class="list-group-item">
-                                    <input class="form-check-input me-1" type="radio" name="listGroupRadio" value="M" id="secondRadio">
-                                    <label class="form-check-label" for="secondRadio">M</label>
-                                </li>
-                                <li class="list-group-item">
-                                    <input class="form-check-input me-1" type="radio" name="listGroupRadio" value="G" id="thirdRadio">
-                                    <label class="form-check-label" for="thirdRadio">G</label>
-                                </li>
-                            </ul>
-                            <!-- Adicione um campo oculto para o ID do usuário -->
-                            <input type="hidden" name="idUsuario" value="${usuario.idUsuario}">
-                            <!-- Adicione um atributo "name" ao botão para que ele seja enviado no formulário -->
-                            <button id="btn" type="submit" class="btn btn-success" name="btnComprar">Comprar</button>
-                        </div>
-                        <span id="duvidas">Dúvidas sobre este produto? Código do produto: #${produto.idProduto}</span>
-                    </div>
-                </div>
-            </form>
-        </main>
+        <form action="Comprar" method="post" name="frmCadastro" enctype="multipart/form-data">
+            <label for="nome">Nome</label>
+            <input type="text" id="nome" name="nome" required>
 
 
-    </main>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-    crossorigin="anonymous"></script>
+            <label for="preco">Preço</label>
+            <input type="number" id="preco" name="preco" step="0.01" required>
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-    crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
-            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-    crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-    crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-    crossorigin="anonymous"></script>
-</body>
+            <label for="imagem">Imagem</label>
+            <input type="file" id="imagem" name="imagem" required accept="image/*">
+
+            <label for="desconto">Desconto</label>
+            <input type="number" id="desconto" name="desconto" step="0.01">
+
+            <label for="categoria">Categoria</label>
+            <input type="text" id="categoria" name="categoria">
+
+            <label for="subcategoria">Subcategoria</label>
+            <input type="text" id="subcategoria" name="subcategoria">
+
+            <label for="clube">Clube</label>
+            <input type="text" id="clube" name="clube">
+
+            <div class="comprar">         
+                <button id="btn" type="submit" class="btn btn-success">Cadastrar</button>
+            </div>
+        </form>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+                integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+                integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+                integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    </body>
 
 </html>

@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 
 /**
  *
- * @author Joao Guilherme
+ * @author Paulo
  */
 public class Pedido {
 

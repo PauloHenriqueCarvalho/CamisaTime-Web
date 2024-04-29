@@ -36,12 +36,10 @@
         </div>
     <header>
         <div class="logo">
-            <%
-        int idU = Usuario.getIdUsuario(); // Supondo que você tenha um objeto 'usuario' disponível na sua página JSP que possui o método getIdUsuario() para obter o ID do usuário.
-%>
-            <a href="./Produtos?idUsuario=<%= idU%>">
-                <h1>FanFut Store</h1>
-            </a>
+
+            <a href="./Produtos?idUsuario=${usuario.idUsuario}">
+                    <h1>FanFut Store</h1>
+                </a>  
         </div>
         <div class="carrinho">
 
@@ -156,7 +154,9 @@
             <c:forEach items="${produtos}" var="produto">
                 <a href="./produto-item?id=${produto.idProduto}">
                     <div class="card" style="width: 18rem;">
-                        <img src="./assets/Captura de tela 2024-04-08 004959.png" class="card-img-top" alt="...">
+                        <div class="imagem-left">
+                            <img src="data:image/jpeg;base64,${produto.imagemBase64}" alt="${produto.nome}">
+                        </div>
                         <div class="card-body">
                             <p class="card-text">${produto.nome}</p>
                             <span class="label-card">

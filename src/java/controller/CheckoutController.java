@@ -7,7 +7,6 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Base64;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,14 +14,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.bean.Produto;
-import model.bean.Usuario;
-import model.dao.ProdutoDAO;
+import model.dao.CarrinhoProdutoDAO;
 
 /**
  *
- * @author Senai
+ * @author paulo
  */
-public class TodosProdutos extends HttpServlet {
+public class CheckoutController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,30 +33,16 @@ public class TodosProdutos extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        String url = "/WEB-INF/jsp/todosProdutos.jsp";
-        ProdutoDAO dao = new ProdutoDAO();
-        int id = Integer.parseInt(request.getParameter("id"));
-        System.out.println("IDD:" + id);
-//        int id = 1
-
-        Usuario usuario = new Usuario();
-        usuario.setIdUsuario(Usuario.getIdUsuarioStatico());
-        request.setAttribute("usuario", usuario);
-       
-        List<Produto> produto = dao.listarPorSubcategoria(id);
-        for (int i = 0; i < produto.size(); i++) {
-            if (produto.get(i).getImagemBytes() != null) {
-                String imagemBase64 = Base64.getEncoder().encodeToString(produto.get(i).getImagemBytes());
-                produto.get(i).setImagemBase64(imagemBase64);
-            }
-
-        }
-       request.setAttribute("produtos", produto);
+        CarrinhoProdutoDAO car = new CarrinhoProdutoDAO();
+        int idCarrinho = Integer.parseInt(request.getParameter("idUsuario"));
+        System.out.println("Id: " + idCarrinho);
+        List<Produto> carrinho = car.listarProdutosDoCarrinho(idCarrinho);
+        request.setAttribute("carrinhos", carrinho);
         
-        RequestDispatcher d = getServletContext().getRequestDispatcher(url);
-        d.forward(request, response);
         
+        String url = "/WEB-INF/jsp/checkout.jsp";
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
+        dispatcher.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

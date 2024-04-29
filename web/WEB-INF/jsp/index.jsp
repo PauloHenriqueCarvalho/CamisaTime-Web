@@ -36,13 +36,12 @@
         </div>
     <header>
         <div class="logo">
-            <a href="./Produtos">
-                <h1>FanFut Store</h1>
-            </a>
+
+            <h1>FanFut Store</h1>
 
         </div>
 
-       <div class="carrinho">
+        <div class="carrinho">
             <div class="ls-cart">
                 <input type="checkbox" class="ls-checkbox-cart">
                 <header class="ls-cart-header">
@@ -63,19 +62,25 @@
                                             <strong>01</strong>${carrinho.nome}
                                         </h2>
                                         <p> R$ ${carrinho.valor}</p>
-                                        <a href="#">Excluir</a>
+                                        <!-- Corrigindo o botão de exclusão -->
+                                        <form action="excluirProduto" method="post">
+                                            <input type="hidden" name="idProduto" value="${carrinho.idProduto}">
+                                            <input type="hidden" name="idUsuario" value="${usuario.idUsuario}">
+                                            <button type="submit" class="btn btn-success">Excluir</button>
+                                        </form>
                                     </li>
                                 </c:forEach>
-                            </ul>
-                            <footer class="ls-cart-footer ls-txt-center">
-                                <a href="" class="ls-btn-primary">Finalizar Compra</a>
-                            </footer>
-                        </c:otherwise>
-                    </c:choose>
-
+                                <footer class="ls-cart-footer ls-txt-center">
+                                    <a href="./checkout?idUsuario=${usuario.idUsuario}" class="ls-btn-primary">Finalizar Compra</a>
+                                </footer>
+                            </c:otherwise>
+                        </c:choose>
+                    </ul>
                 </div>
             </div>
         </div>
+
+
         <div class="search">
             <form  class="d-flex" role="search">
                 <input class="form-control me-2" type="search" placeholder="O que você procura?" aria-label="Search">
@@ -90,24 +95,23 @@
                     <i class="fa-solid fa-user"></i>
                 </button>
                 <c:choose>
-                            <c:when test="${usuario.idUsuario != 0}">
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="./Login">Login</a></li>
-                                    <li><a class="dropdown-item" href="./cadastro-usuario">Cadastre-se</a></li>
-                                    <li><a class="dropdown-item" href="./produto-item">Criar Produto</a></li>
+                    <c:when test="${usuario.idUsuario != 0}">
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="./Login">Login</a></li>
+                            <li><a class="dropdown-item" href="./cadastro-usuario">Cadastre-se</a></li>
+                            <li><a class="dropdown-item" href="./cadastrar-produtos">Criar Produto</a></li>
+                        </ul>
+                    </c:when>
+                    <c:otherwise>
+                        <ul class="dropdown-menu">
+                            <p>${usuario.nome}</p>
+                            <li><a class="dropdown-item" href="./meus-pedidos">Meus Pedidos</a></li>
+                            <li><a class="dropdown-item" href="./Produtos?idUsuario=0">Log out</a></li>
 
-                                </ul>
-                            </c:when>
-                            <c:otherwise>
-                                <ul class="dropdown-menu">
-                                    <p>${usuario.nome}</p>
-                                    <li><a class="dropdown-item" href="./meus-pedidos">Meus Pedidos</a></li>
-                                    <li><a class="dropdown-item" href="./Produtos?idUsuario=0">Log out</a></li>
+                        </ul>
+                    </c:otherwise>
+                </c:choose>
 
-                                </ul>
-                        </c:otherwise>
-                    </c:choose>
-                
             </div>
 
 
@@ -182,7 +186,20 @@
             <c:forEach items="${produtos}" var="produto">
                 <a href="./produto-item?id=${produto.idProduto}">
                     <div class="card" style="width: 18rem;">
-                        <img src="./assets/Captura de tela 2024-04-08 004959.png" class="card-img-top" alt="...">
+
+
+                        <c:choose>
+                            <c:when test="${produto.imagemBase64 == null}">
+                                <img src="./assets/Captura de tela 2024-04-08 004959.png" class="card-img-top" alt="...">
+                            </c:when>
+                            <c:otherwise>
+                                <div class="imagem-left">
+                                    <img src="data:image/jpeg;base64,${produto.imagemBase64}" class="card-img-top" alt="${produto.nome}">
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
+
+
                         <div class="card-body">
                             <p class="card-text">${produto.nome}</p>
                             <span class="label-card">

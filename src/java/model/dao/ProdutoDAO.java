@@ -5,20 +5,20 @@
  */
 package model.dao;
 
-
 import java.sql.Connection;
 import conexao.Conexao;
 import java.io.FileInputStream;
 
-
 import conexao.Conexao;
 import java.io.FileInputStream;
+import java.sql.Blob;
 import java.sql.Connection;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import model.bean.Categoria;
 import model.bean.Produto;
@@ -30,7 +30,48 @@ import model.bean.Subcategoria;
  */
 public class ProdutoDAO {
 
-      public List<Produto> listarTodosDisponiveis() {
+    public static String convertBlobToBase64(Blob blob) {
+        try {
+            byte[] bytes = blob.getBytes(1, (int) blob.length());
+            return Base64.getEncoder().encodeToString(bytes);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public boolean inserirProduto(Produto produto) {
+        try (Connection conexao = Conexao.getConn();
+                PreparedStatement ps = conexao.prepareStatement("INSERT INTO produto (nome, valor, desconto, valorFinal, categoria, subcategoria, clube, imagem) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
+
+            // Calcular o valor final com base no valor e desconto
+            float valorFinal = produto.getValor() - produto.getDesconto();
+
+            // Defina os parâmetros do PreparedStatement com os valores do produto
+            ps.setString(1, produto.getNome());
+            ps.setFloat(2, produto.getValor());
+            ps.setFloat(3, produto.getDesconto());
+            ps.setFloat(4, valorFinal); // Defina o valor final calculado
+            ps.setInt(5, produto.getCategoria());
+            ps.setInt(6, produto.getSubcategoria());
+            ps.setInt(7, produto.getClube());
+            ps.setBytes(8, produto.getImagemBytes()); // Defina a imagem como array de bytes
+
+            // Execute o PreparedStatement
+            int linhasAfetadas = ps.executeUpdate();
+            ps.close();
+            conexao.close();
+            // Verifique se a inserção foi bem-sucedida (verifique se uma linha foi afetada)
+            return linhasAfetadas > 0;
+
+        } catch (SQLException e) {
+            // Você pode lidar com a exceção aqui, talvez registrando-a ou lançando-a novamente
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public List<Produto> listarTodosDisponiveis() {
         List<Produto> produtos = new ArrayList<>();
 
         try {
@@ -80,10 +121,16 @@ public class ProdutoDAO {
                 p.setIdProduto(rs.getInt("idProduto"));
                 p.setNome(rs.getString("nome"));
                 p.setCategoria(rs.getInt("categoria"));
-                p.setClube(rs.getInt("clube"));
                 p.setValor(rs.getFloat("valor"));
                 p.setDesconto(rs.getFloat("desconto"));
                 p.setValorFinal(rs.getFloat("valorFinal"));
+
+                // Recuperar a imagem como um array de bytes
+                Blob imagemBlob = rs.getBlob("imagem");
+                if (imagemBlob != null) {
+                    byte[] imagemBytes = imagemBlob.getBytes(1, (int) imagemBlob.length());
+                    p.setImagemBytes(imagemBytes);
+                }
                 produtos.add(p);
             }
 
@@ -120,6 +167,13 @@ public class ProdutoDAO {
                 p.setValor(rs.getFloat("valor"));
                 p.setDesconto(rs.getFloat("desconto"));
                 p.setValorFinal(rs.getFloat("valorFinal"));
+
+                // Recuperar a imagem como um array de bytes
+                Blob imagemBlob = rs.getBlob("imagem");
+                if (imagemBlob != null) {
+                    byte[] imagemBytes = imagemBlob.getBytes(1, (int) imagemBlob.length());
+                    p.setImagemBytes(imagemBytes);
+                }
                 produtos.add(p);
             }
             rs.close();
@@ -130,7 +184,7 @@ public class ProdutoDAO {
         }
         return produtos;
     }
-    
+
     public List<Produto> listarPorSubcategoria(int id) {
         List<Produto> produtos = new ArrayList<>();
         try {
@@ -152,6 +206,13 @@ public class ProdutoDAO {
                 p.setValor(rs.getFloat("valor"));
                 p.setDesconto(rs.getFloat("desconto"));
                 p.setValorFinal(rs.getFloat("valorFinal"));
+
+                // Recuperar a imagem como um array de bytes
+                Blob imagemBlob = rs.getBlob("imagem");
+                if (imagemBlob != null) {
+                    byte[] imagemBytes = imagemBlob.getBytes(1, (int) imagemBlob.length());
+                    p.setImagemBytes(imagemBytes);
+                }
                 produtos.add(p);
             }
             rs.close();
@@ -200,28 +261,29 @@ public class ProdutoDAO {
 
     // Método para obter um produto pelo seu ID
     public Produto readById(int id) {
-        Produto p = new Produto();
-        try {
-            Connection conexao = Conexao.getConn();
-            PreparedStatement stmt = null;
-            ResultSet rs = null;
+        Produto p = null;
+        try (Connection conexao = Conexao.getConn();
+                PreparedStatement stmt = conexao.prepareStatement("SELECT * FROM produto WHERE idProduto = ?")) {
 
-            stmt = conexao.prepareStatement("SELECT * FROM produto WHERE idProduto = ?");
             stmt.setInt(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    p = new Produto();
+                    p.setIdProduto(rs.getInt("idProduto"));
+                    p.setNome(rs.getString("nome"));
+                    p.setCategoria(rs.getInt("categoria"));
+                    p.setValor(rs.getFloat("valor"));
+                    p.setDesconto(rs.getFloat("desconto"));
+                    p.setValorFinal(rs.getFloat("valorFinal"));
 
-            rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                p.setIdProduto(rs.getInt("idProduto"));
-                p.setNome(rs.getString("nome"));
-                p.setCategoria(rs.getInt("categoria"));
-                p.setValor(rs.getFloat("valor"));
-                p.setDesconto(rs.getFloat("desconto"));
-                p.setValorFinal(rs.getFloat("valorFinal"));
+                    // Recuperar a imagem como um array de bytes
+                    Blob imagemBlob = rs.getBlob("imagem");
+                    if (imagemBlob != null) {
+                        byte[] imagemBytes = imagemBlob.getBytes(1, (int) imagemBlob.length());
+                        p.setImagemBytes(imagemBytes);
+                    }
+                }
             }
-            rs.close();
-            stmt.close();
-            conexao.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -229,57 +291,7 @@ public class ProdutoDAO {
     }
 
     // Método para criar um novo produto
-    public void create(Produto p, FileInputStream fis, int tamanho) {
-        try {
-            Connection conexao = Conexao.getConn();
-            PreparedStatement stmt = null;
-
-            stmt = conexao.prepareStatement("INSERT INTO produto (nome, categoria, subcategoria, valor, desconto, valorFinal, clube, imagem) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-            stmt.setString(1, p.getNome());
-            stmt.setInt(2, p.getCategoria());
-            stmt.setInt(3, p.getSubcategoria());
-            stmt.setFloat(4, p.getValor());
-            stmt.setFloat(5, p.getDesconto());
-            stmt.setFloat(6, p.getValorFinal());
-            stmt.setInt(7, p.getClube());
-            stmt.setBlob(8, p.getImagem());
-
-            stmt.executeUpdate();
-
-            stmt.close();
-            conexao.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     // Método para atualizar um produto existente
-    public void update(Produto p, FileInputStream fis, int tamanho) {
-        try {
-            Connection conexao = Conexao.getConn();
-            PreparedStatement stmt = null;
-
-            stmt = conexao.prepareStatement("UPDATE produto SET nome = ?, categoria = ?, subcategoria = ?, valor = ?, desconto = ?, valorFinal = ?, clube = ?, imagem = ? WHERE idProduto = ?");
-
-            stmt.setString(1, p.getNome());
-            stmt.setInt(2, p.getCategoria());
-            stmt.setInt(3, p.getSubcategoria());
-            stmt.setFloat(4, p.getValor());
-            stmt.setFloat(5, p.getDesconto());
-            stmt.setFloat(6, p.getValorFinal());
-            stmt.setInt(7, p.getClube());
-            stmt.setBlob(8, p.getImagem());
-            stmt.setInt(9, p.getIdProduto());
-
-            stmt.executeUpdate();
-
-            stmt.close();
-            conexao.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     // Método para excluir um produto pelo seu ID
     public void delete(int id) {
         try {

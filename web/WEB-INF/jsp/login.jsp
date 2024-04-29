@@ -34,9 +34,9 @@
         </div>
         <header>
             <div class="logo">
-                <a href="./Produtos">
+                <a href="./Produtos?idUsuario=${usuario.idUsuario}">
                     <h1>FanFut Store</h1>
-                </a>
+                </a>  
             </div>
 
             <div class="search">

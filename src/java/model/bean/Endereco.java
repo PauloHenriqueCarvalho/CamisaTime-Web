@@ -7,7 +7,7 @@ package model.bean;
 
 /**
  *
- * @author Joao Guilherme
+ * @author Paulo
  */
 public class Endereco {
     private int idEndereco;

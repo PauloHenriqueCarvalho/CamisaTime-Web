@@ -34,38 +34,36 @@ public class LoginController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String url = request.getServletPath();
+        String nextPage = "/WEB-INF/jsp/login.jsp"; // Definindo a página padrão
+
         if (url.equals("/logar")) {
-            String nextPage = "/WEB-INF/jsp/index.jsp";
             Usuario user = new Usuario();
             UsuarioDAO valida = new UsuarioDAO();
 
             user.setEmail(request.getParameter("email"));
             user.setSenha(request.getParameter("senha"));
-            
+
             try {
                 Usuario userAutenticado = valida.validaUser(user);
 
                 if (userAutenticado != null && !userAutenticado.getNome().isEmpty()) {
                     int idUsuario = valida.getId(request.getParameter("email"));
-                    Usuario.setIdUsuario(idUsuario);
-                    response.sendRedirect("./Produtos?idUsuario="+ idUsuario);
                     
-                    
+                    response.sendRedirect(request.getContextPath() + "/Produtos?idUsuario=" + idUsuario);
+                    return;
                 } else {
-                    nextPage = "/WEB-INF/jsp/login.jsp";
                     request.setAttribute("errorMessage", "Usuário ou senha inválidos");
-                    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextPage);
-                    dispatcher.forward(request, response);
                 }
             } catch (Exception e) {
-                nextPage = "/WEB-INF/jsp/login.jsp";
-                request.setAttribute("errorMessage", "Usuário ou senha inválidos");
-                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextPage);
-                dispatcher.forward(request, response);
+                request.setAttribute("errorMessage", "Erro ao autenticar usuário");
             }
-        } else {
-            processRequest(request, response);
         }
+        Usuario usuario = new Usuario();
+        usuario.setIdUsuario(Usuario.getIdUsuarioStatico());
+        request.setAttribute("usuario", usuario);
+
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextPage);
+        dispatcher.forward(request, response);
     }
 
     @Override

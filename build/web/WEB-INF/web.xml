@@ -22,7 +22,7 @@
     </servlet>
     <servlet>
         <servlet-name>cadastroUsuarioController</servlet-name>
-        <servlet-class>controller.cadastroUsuarioController</servlet-class>
+        <servlet-class>controller.CadastroUsuarioController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LoginController</servlet-name>
@@ -30,7 +30,7 @@
     </servlet>
     <servlet>
         <servlet-name>meusPedidosController</servlet-name>
-        <servlet-class>controller.meusPedidosController</servlet-class>
+        <servlet-class>controller.MeusPedidosController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ProdutoItemController</servlet-name>
@@ -39,6 +39,14 @@
     <servlet>
         <servlet-name>TodosProdutos</servlet-name>
         <servlet-class>controller.TodosProdutos</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CadastrarProdutos</servlet-name>
+        <servlet-class>controller.CadastrarProdutos</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CheckoutController</servlet-name>
+        <servlet-class>controller.CheckoutController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
@@ -51,6 +59,10 @@
     <servlet-mapping>
         <servlet-name>ProdutoController</servlet-name>
         <url-pattern>/Produtos</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProdutoController</servlet-name>
+        <url-pattern>/excluirProduto</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>cadastroUsuarioController</servlet-name>
@@ -77,8 +89,24 @@
         <url-pattern>/produto-item</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>ProdutoItemController</servlet-name>
+        <url-pattern>/adicionar</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>TodosProdutos</servlet-name>
         <url-pattern>/todosProdutos</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CadastrarProdutos</servlet-name>
+        <url-pattern>/cadastrar-produtos</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CadastrarProdutos</servlet-name>
+        <url-pattern>/Comprar</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CheckoutController</servlet-name>
+        <url-pattern>/checkout</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

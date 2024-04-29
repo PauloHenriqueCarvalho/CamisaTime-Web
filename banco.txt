@@ -11,15 +11,6 @@ create table usuario (
     telefone varchar(13)
 );
 
-create table endereco (
-	idEndereco int primary key auto_increment,
-    estado varchar(50) not null,
-    cidade varchar(50) not null,
-    cep char(9),
-    rua varchar(100) not null,
-    numero varchar(10) not null,
-    complemento varchar(100)
-);
 
 create table categoria (
 	idCategoria int primary key auto_increment,
@@ -38,83 +29,84 @@ create table clube (
 
 
 
-create table produto (
-	idProduto int primary key auto_increment,
-    nome varchar(100) not null,
-    valor float(10,2) not null,
-    desconto float(10,2),
-    valorFinal float(10,2) not null,
-    imagem longblob,
-    categoria int not null,
-    subcategoria int,
-    clube int,
-    foreign key (clube) references clube(idClube),
-    foreign key (subcategoria) references subcategoria(idSubcategoria),
-    foreign key (categoria) references categoria(idCategoria)
-);
+	create table produto (
+		idProduto int primary key auto_increment,
+		nome varchar(100) not null,
+		valor float(10,2) not null,
+		desconto float(10,2),
+		valorFinal float(10,2) not null,
+		imagem longblob,
+		categoria int not null,
+		subcategoria int,
+		clube int,
+		foreign key (clube) references clube(idClube),
+		foreign key (subcategoria) references subcategoria(idSubcategoria),
+		foreign key (categoria) references categoria(idCategoria)
+	);
 
-create table estoque (
-	idEstoque int primary key auto_increment,
-    produto int not null,
-    quantidade int not null,
-    custo float(10,2) not null,
-    foreign key (produto) references produto(idProduto)
-);
+	create table estoque (
+		idEstoque int primary key auto_increment,
+		produto int not null,
+		quantidade int not null,
+		custo float(10,2) not null,
+		foreign key (produto) references produto(idProduto)
+	);
 
-create table pedido (
-	idPedido int primary key auto_increment,
-    usuario int not null,
-    endereco_entrega int not null,
-    data_pedido date not null,
-    valorTotal float,
-    foreign key (endereco_entrega) references endereco(idEndereco),
-    foreign key (usuario) references usuario(idUsuario)
-);
+	create table pedido (
+		idPedido int primary key auto_increment,
+		usuario int not null,
+		data_pedido date not null,
+        email varchar(90),
+		valorTotal float,
+        endereco varchar(100),
+		foreign key (usuario) references usuario(idUsuario)
+	);
 
-create table carrinho (
-	idCarrinho int primary key auto_increment,
-    usuario int,
-    foreign key (usuario) references usuario(idUsuario)
-);
+	create table carrinho (
+		idCarrinho int primary key auto_increment,
+		usuario int,
+		foreign key (usuario) references usuario(idUsuario)
+	);
 
-create table carrinho_produto (
-	idCarrinho_produto int primary key auto_increment,
-    carrinho int not null,
-    produto int not null,
-    foreign key (carrinho) references carrinho(idCarrinho),
-    foreign key (produto) references produto(idProduto)
-);
+	create table carrinho_produto (
+		idCarrinho_produto int primary key auto_increment,
+		carrinho int not null,
+		produto int not null,
+        tamanho varchar(2),
+		foreign key (carrinho) references carrinho(idCarrinho),
+		foreign key (produto) references produto(idProduto)
+	);
 
-create table produto_pedido (
-	idProduto_pedido int primary key auto_increment,
-    pedido int not null,
-    tamanho varchar(30),
-    produto int not null,
-    foreign key (pedido) references pedido(idPedido),
-    foreign key (produto) references produto(idProduto)
-);
+	create table produto_pedido (
+		idProduto_pedido int primary key auto_increment,
+		pedido int not null,
+		tamanho varchar(30),
+		produto int not null,
+		foreign key (pedido) references pedido(idPedido),
+		foreign key (produto) references produto(idProduto)
+	);
 
-DELIMITER //
-CREATE TRIGGER criar_carrinho
-AFTER INSERT ON usuario
-FOR EACH ROW
-BEGIN
-    INSERT INTO carrinho (usuario) VALUES (NEW.idUsuario);
-END //
+	DELIMITER //
+	CREATE TRIGGER criar_carrinho
+	AFTER INSERT ON usuario
+	FOR EACH ROW
+	BEGIN
+		INSERT INTO carrinho (usuario) VALUES (NEW.idUsuario);
+	END //
 
-DELIMITER //
+	DELIMITER //
 
 
-CREATE TRIGGER criar_estoque_produto
-AFTER INSERT ON produto
-FOR EACH ROW
-BEGIN
-    INSERT INTO estoque (produto, quantidade, custo) VALUES (NEW.idProduto, 10, NEW.valor);
-END;
-//
-DELIMITER ;
+	CREATE TRIGGER criar_estoque_produto
+	AFTER INSERT ON produto
+	FOR EACH ROW
+	BEGIN
+		INSERT INTO estoque (produto, quantidade, custo) VALUES (NEW.idProduto, 10, NEW.valor);
+	END;
+	//
+	DELIMITER ;
 
-DELIMITER //
+	DELIMITER //
 
 INSERT INTO usuario (nome, email, senha, cpf, telefone) VALUES
 ('João Silva', 'joao@example.com', 'senha123', '12345678901', '1234567890'),
@@ -123,13 +115,10 @@ INSERT INTO usuario (nome, email, senha, cpf, telefone) VALUES
 ('Ana Souza', 'ana@example.com', 'senhaabc', '23456789012', '6789012345'),
 ('Carlos Silva', 'carlos@example.com', 'senhaxyz', '34567890123', '7890123456');
 
--- Inserts para tabela 'endereco'
-INSERT INTO endereco (estado, cidade, cep, rua, numero, complemento) VALUES
-('São Paulo', 'São Paulo', '01234-567', 'Rua A', '123', 'Apartamento 1'),
-('Rio de Janeiro', 'Rio de Janeiro', '23456-789', 'Rua B', '456', NULL),
-('Belo Horizonte', 'Belo Horizonte', '34567-890', 'Rua C', '789', NULL),
-('Salvador', 'Salvador', '45678-901', 'Rua D', '1011', 'Casa 2'),
-('Porto Alegre', 'Porto Alegre', '56789-012', 'Rua E', '1213', 'Bloco B');
+INSERT INTO usuario (nome, email, senha, cpf, telefone) VALUES
+('a', 'a@gmail.com', 'a', '12345678901', '1234567890');
+
+
 
 -- Inserts para tabela 'categoria'
 INSERT INTO categoria (nome) VALUES
@@ -170,3 +159,4 @@ INSERT INTO estoque (produto, quantidade, custo) VALUES
 (4, 25, 27.00), -- Camiseta Real Madrid
 (5, 35, 22.00); -- Camiseta Boca Juniors
 
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '1234';

@@ -7,7 +7,7 @@ package model.bean;
 
 /**
  *
- * @author Joao Guilherme
+ * @author Paulo
  */
 public class Estoque {
     private int idEstoque;

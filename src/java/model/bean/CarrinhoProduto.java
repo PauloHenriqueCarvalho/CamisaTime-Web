@@ -7,20 +7,22 @@ package model.bean;
 
 /**
  *
- * @author Joao Guilherme
+ * @author Paulo
  */
 public class CarrinhoProduto {
     private int idCarrinhoProduto;
     private int carrinho;
     private int produto;
+    private String tamanhoSelecionado;
 
     public CarrinhoProduto() {
     }
 
-    public CarrinhoProduto(int idCarrinhoProduto, int carrinho, int produto) {
+    public CarrinhoProduto(int idCarrinhoProduto, int carrinho, int produto, String tamanhoSelecionado) {
         this.idCarrinhoProduto = idCarrinhoProduto;
         this.carrinho = carrinho;
         this.produto = produto;
+        this.tamanhoSelecionado = tamanhoSelecionado;
     }
 
     public int getIdCarrinhoProduto() {
@@ -46,5 +48,15 @@ public class CarrinhoProduto {
     public void setProduto(int produto) {
         this.produto = produto;
     }
+
+    public String getTamanhoSelecionado() {
+        return tamanhoSelecionado;
+    }
+
+    public void setTamanhoSelecionado(String tamanhoSelecionado) {
+        this.tamanhoSelecionado = tamanhoSelecionado;
+    }
+
+     
     
 }

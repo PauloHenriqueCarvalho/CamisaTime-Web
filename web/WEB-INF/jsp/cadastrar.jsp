@@ -72,13 +72,14 @@
                 <div class="mb-3">
                     <label for="exampleInputEmail1" class="form-label">Email </label>
                     <input type="email" class="form-control" id="idEmail"  name="idEmail" aria-describedby="emailHelp">
+
                     <div id="emailHelp" class="form-text">Nunca compartilharemos seu e-mail com mais ninguém.</div>
 
                     <label for="exampleInputPassword1" class="form-label">Senha</label>
                     <input type="password" name="senha" class="form-control" id="senha">
 
-                    <label  class="form-label">Nome </label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    <label class="form-label">Nome</label>
+                    <input type="text" name="nome" class="form-control" id="nome">
 
                     <label class="form-label">Telefone</label>
                     <input type="tel" name="telefone" class="form-control" id="telefone">
@@ -87,7 +88,7 @@
                     <input type="text" name="nome" class="form-control" id="nome">
 
                     <label for="exampleInputPassword1" class="form-label">CPF</label>
-                    <input type="tel" name="telefone" class="form-control" id="telefone">
+                    <input type="tel" name="cpf" class="form-control" id="cpf">
                 </div>
 
                 <button type="submit" class="btn btn-primary">Cadastrar</button>

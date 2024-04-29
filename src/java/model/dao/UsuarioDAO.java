@@ -58,6 +58,7 @@ public class UsuarioDAO {
                 usuarioValido.setEmail(rs.getString("email"));
                 usuarioValido.setTelefone(rs.getString("telefone"));
                 usuarioValido.setCpf(rs.getString("cpf"));
+                Usuario.setIdUsuarioStatico(rs.getInt("idUsuario"));
 
             }
 
@@ -86,7 +87,7 @@ public class UsuarioDAO {
             rs = stmt.executeQuery();
 
             if (rs.next()) {
-                Usuario.setIdUsuario(rs.getInt("idUsuario"));
+                
                 id = rs.getInt("idUsuario");
 
             }
@@ -158,7 +159,8 @@ public class UsuarioDAO {
         return u;
     }
 
-    public void create(Usuario u) {
+    public int create(Usuario u) {
+        int id = 0;
         try {
             java.sql.Connection conexao = Conexao.getConn();
             PreparedStatement stmt = null;
@@ -172,10 +174,23 @@ public class UsuarioDAO {
 
             stmt.executeUpdate();
             stmt.close();
+            
+            PreparedStatement stmt2 = null;
+            stmt2 = conexao.prepareStatement("select * from usuario where nome = ? and email = ? and senha = ? and cpf = ? and telefone = ? ");
+            stmt2.setString(1, u.getNome());
+            stmt2.setString(2, u.getEmail());
+            stmt2.setString(3, u.getSenha());
+            stmt2.setString(4, u.getCpf());
+            stmt2.setString(5, u.getTelefone());
+            ResultSet rs = stmt2.executeQuery();
+            if(rs.next()){
+                id = rs.getInt("idUsuario");
+            }
             conexao.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return id;
     }
 
     public void update(Usuario u) {
